@@ -1,8 +1,8 @@
 ##neolithic dates
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/British_Isles_all_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/British_Isles_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/British_Isles_all_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/British_Isles_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -69,8 +69,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -183,8 +183,8 @@ dev.off()
 
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Scotland_N_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/British_Isles_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Scotland_N_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/British_Isles_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -251,8 +251,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -365,8 +365,8 @@ dev.off()
 
 
 #hugary
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Hungary_all_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Hungary_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Hungary_all_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Hungary_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -434,8 +434,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -540,8 +540,8 @@ dev.off()
 
 
 #france
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/France_MN_more_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/France_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/France_MN_more_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/France_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -608,8 +608,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -728,8 +728,8 @@ dev.off()
 
 
 #spain
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_MLN_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Spain_MLN_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -796,8 +796,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -899,8 +899,8 @@ dev.off()
 
 
 #spain
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_C_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Spain_C_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -967,8 +967,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -1069,8 +1069,8 @@ dev.off()
 
 
 #spain
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_Portugal_C_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Spain_Portugal_C_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Spain_Portugal_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -1137,8 +1137,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -1239,8 +1239,8 @@ p
 dev.off()
 
 #germany lbk
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Germany_Austria_all_1remove_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Germany_Austria_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Germany_Austria_all_1remove_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Germany_Austria_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -1307,8 +1307,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
@@ -1407,8 +1407,8 @@ dev.off()
 
 
 #germany austria lbk
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Germany_Austria_all_dates_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neolithic/Germany_Austria_all_dates.txt", sep="", header=F)
+output <- read.table("data/real/neolithic/Germany_Austria_all_dates_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neolithic/Germany_Austria_all_dates.txt", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -1475,8 +1475,8 @@ joint_date_text <- paste(joint_date_text, collapse = "\n")
 
 
 
-neolithic_ancients <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/Twigstats/neolithic_ancients.csv")
-anno <- read.delim("C:/Users/nancy/Downloads/v54.1.p1_1240K_public.anno")
+neolithic_ancients <- read.csv("neolithic_ancients.csv")
+anno <- read.delim("v54.1.p1_1240K_public.anno")
 neolithic_ancients<-select(neolithic_ancients, ID, POP_filt)
 anno<-select(anno, Genetic.ID, Group.ID)
 colnames(anno)<-colnames(neolithic_ancients)
