@@ -2,8 +2,8 @@
 library(tidyverse)
 library(stringr)
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen10gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen10gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen10gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen10gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -68,8 +68,8 @@ p3010 <- ggplot(output) +
 p3010
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -132,8 +132,8 @@ p3030 <- ggplot(output) +
 
 p3030
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -198,8 +198,8 @@ p3060
 
 ####now gt
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen10gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen10gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen10gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen10gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -262,8 +262,8 @@ p3010_gt <- ggplot(output) +
 p3010_gt
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -326,8 +326,8 @@ p3030_gt <- ggplot(output) +
 
 p3030_gt
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen60gen.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen60gen.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen60gen.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen60gen.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -426,8 +426,8 @@ dev.off()
 ##########OK NOW THE MULTIPLE DATE PLOTS
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen10gen_40genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen10gen_40genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen10gen_40genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen10gen_40genonewave.txt", quote="\"", comment.char="")
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -499,8 +499,8 @@ p3010
 
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen10gen_40genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen10gen_40genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen10gen_40genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen10gen_40genonewave.txt", quote="\"", comment.char="")
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 
@@ -596,8 +596,8 @@ dev.off()
 
 
 ##now 3030
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -674,8 +674,8 @@ p3030
 
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave2.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave2.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave2.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen30gen_60genonewave2.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -748,8 +748,8 @@ p3030_2 <- ggplot(output) +
 p3030_2
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -823,8 +823,8 @@ p3030_gt
 
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave2.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave2.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave2.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_60genonewave2.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -927,8 +927,8 @@ dev.off()
 
 
 #3060
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -1004,8 +1004,8 @@ p3060
 
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave2.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave2.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave2.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/dates_africaeurope_twowave_30gen60gen_90genonewave2.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -1078,8 +1078,8 @@ p3060_2 <- ggplot(output) +
 p3060_2
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -1153,8 +1153,8 @@ p3060_gt
 
 
 
-output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave2.output.txt", comment.char="#")
-input_data <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave2.txt", quote="\"", comment.char="")
+output <- read.delim("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave2.output.txt", comment.char="#")
+input_data <- read.table("data/simulations/two waves/GT_africaeurope_twowave_30gen30gen_90genonewave2.txt", quote="\"", comment.char="")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
