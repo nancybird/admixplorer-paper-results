@@ -258,7 +258,7 @@ write.csv(summary_rows, "data/simulation_summary_per_scenario_DATES.csv", row.na
 
 
 ##gt
-files_gt <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/gt_filelist.txt", quote="\"", comment.char="")
+files_gt <- read.table("data/simulations/gt_filelist.txt", quote="\"", comment.char="")
 files_gt<-files_gt$V1
 files_gt<-paste0("data/simulations/GLOBETROTTER/", files_gt)
 summary_rows_gt <- purrr::map_dfr(files_gt, function(fout) {
@@ -290,7 +290,7 @@ library(forcats)
 library(patchwork)
 
 
-summary_rows <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulation_summary_per_scenario_both.csv")
+summary_rows <- read.csv("data/simulation_summary_per_scenario_both.csv")
 summary_rows$scenario<-gsub("africaeurope", "Africa-Europe", summary_rows$scenario)
 summary_rows$scenario<-gsub("italiannorway", "Italy-Norway", summary_rows$scenario)#
 summary_rows$scenario<-gsub("_0595", "-05:95", summary_rows$scenario)
