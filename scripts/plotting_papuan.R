@@ -1,8 +1,8 @@
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/Both_dates_admixplorer.output.txt", header=T)
-input_data1<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/oliviera_dates.txt", sep="", header=F)
-input_data2<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/nagele_dates.txt", sep="", header=F)
+output <- read.table("data/real/papuan/Both_dates_admixplorer.output.txt", header=T)
+input_data1<-read.csv("data/real/papuan/oliviera_dates.txt", sep="", header=F)
+input_data2<-read.csv("data/real/papuan/nagele_dates.txt", sep="", header=F)
 
 
 
@@ -13,7 +13,7 @@ input_data2$dataset<-"Nagele"
 input_data<-rbind(input_data1,input_data2)
 
 
-papuan_pop_info <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/papuan_pop_info.csv")
+papuan_pop_info <- read.csv("data/real/papuan/papuan_pop_info.csv")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
@@ -166,9 +166,9 @@ dev.off()
 
 #just oliveria
 
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/Oliviera_dates_admixplorer.output.txt", header=T)
-input_data1<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/oliviera_dates.txt", sep="", header=F)
-input_data2<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/nagele_dates.txt", sep="", header=F)
+output <- read.table("data/real/papuan/Oliviera_dates_admixplorer.output.txt", header=T)
+input_data1<-read.csv("data/real/papuan/oliviera_dates.txt", sep="", header=F)
+input_data2<-read.csv("data/real/papuan/nagele_dates.txt", sep="", header=F)
 
 
 
@@ -179,7 +179,7 @@ input_data2$dataset<-"Nagele"
 input_data<-rbind(input_data1,input_data2)
 
 
-papuan_pop_info <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/papuan/papuan_pop_info.csv")
+papuan_pop_info <- read.csv("data/real/papuan/papuan_pop_info.csv")
 
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
