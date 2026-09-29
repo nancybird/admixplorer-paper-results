@@ -1,10 +1,10 @@
 library(tidyverse)
 
 ###gt results first
-GT_results_group <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/allgtresults_grouped.txt", sep="")
-admixplorer_20gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.output.txt", comment.char="#")
-admixplorer_50gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_first30.output.txt", comment.char="#")
-admixplorer_75gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen_first30.output.txt", comment.char="#")
+GT_results_group <- read.csv("data/simulations/GLOBETROTTER/allgtresults_grouped.txt", sep="")
+admixplorer_20gen <- read.delim("data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.output.txt", comment.char="#")
+admixplorer_50gen <- read.delim("data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_first30.output.txt", comment.char="#")
+admixplorer_75gen <- read.delim("data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen_first30.output.txt", comment.char="#")
 
 
 GT_results_group<-GT_results_group %>% select(Recipient, date, upper, lower) %>%  distinct()
@@ -72,11 +72,11 @@ dev.off()
 
 ##now dates
 
-GT_results_group <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_results_grouped.txt", sep="")
+GT_results_group <- read.table(data/simulations/DATES/dates_results_grouped.txt", sep="")
 GT_results_group$V2<-GT_results_group$V2-1
-admixplorer_20gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates_last30.output.txt", comment.char="#")
-admixplorer_50gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_50gen_dates_first30.output.txt", comment.char="#")
-admixplorer_75gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_75gen_dates_first30.output.txt", comment.char="#")
+admixplorer_20gen <- read.delim("data/simulations/DATES/spanish_japan_20gen_dates_last30.output.txt", comment.char="#")
+admixplorer_50gen <- read.delim("data/simulations/DATES/spanish_japan_50gen_dates_first30.output.txt", comment.char="#")
+admixplorer_75gen <- read.delim("data/simulations/DATES/spanish_japan_75gen_dates_first30.output.txt", comment.char="#")
 
 GT_results_group$V4<-GT_results_group$V2 - 1.96 * GT_results_group$V3
 GT_results_group$V5<-GT_results_group$V2 + 1.96 * GT_results_group$V3
@@ -148,9 +148,9 @@ dev.off()
 
 
 ###NOW two dates GT
-GT_results_group <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/allgtresults_groupings.txt", sep="")
-admixplorer_20gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_50gen_first30.output.txt", comment.char="#")
-admixplorer_50gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_75gen_first30.output.txt", comment.char="#")
+GT_results_group <- read.csv("data/simulations/GLOBETROTTER/allgtresults_groupings.txt", sep="")
+admixplorer_20gen <- read.delim("data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_50gen_first30.output.txt", comment.char="#")
+admixplorer_50gen <- read.delim("data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_75gen_first30.output.txt", comment.char="#")
 
 GT_results_group<-GT_results_group %>% select(Recipient, date, upper, lower) %>%  distinct()
 GT_results_group$method<-"GT_grouped"
@@ -216,10 +216,10 @@ ggplot(all_results) +
 dev.off()
 
 
-GT_results_group <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_results_grouped.txt", sep="")
+GT_results_group <- read.table("data/simulations/DATES/dates_results_grouped.txt", sep="")
 GT_results_group$V2<-GT_results_group$V2-1
-admixplorer_20gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_50gen_dates.output.txt", comment.char="#")
-admixplorer_50gen <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_50gen_75gen_dates.output.txt", comment.char="#")
+admixplorer_20gen <- read.delim("data/simulations/DATES/spanish_japan_20gen_50gen_dates.output.txt", comment.char="#")
+admixplorer_50gen <- read.delim("data/simulations/DATES/spanish_japan_50gen_75gen_dates.output.txt", comment.char="#")
 
 
 GT_results_group$V4<-GT_results_group$V2 - 1.96 * GT_results_group$V3
@@ -295,9 +295,9 @@ dev.off()
 
 
 
-spanish_japan_20gen_dates_first30.output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates_last30.output.txt", comment.char="#")
+spanish_japan_20gen_dates_first30.output <- read.delim("data/simulations/DATES/spanish_japan_20gen_dates_last30.output.txt", comment.char="#")
 
-spanish_japan_20gen_dates_first30 <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates_last30.txt", comment.char="#", header=F, sep=" ")
+spanish_japan_20gen_dates_first30 <- read.delim("data/simulations/DATES/spanish_japan_20gen_dates_last30.txt", comment.char="#", header=F, sep=" ")
 
 
 spanish_japan_20gen_dates_first30.output$ind_date_se<-spanish_japan_20gen_dates_first30[match(spanish_japan_20gen_dates_first30.output$pop, spanish_japan_20gen_dates_first30$V1), 5]
@@ -328,76 +328,5 @@ ggplot(spanish_japan_20gen_dates_first30.output) +
     axis.text.x = element_blank(),
     plot.title = element_text(size = 16, face = "bold")
   ) 
-
-dev.off()
-
-
-
-
-spanish_japan_20gen_dates_first30.output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.output.txt", comment.char="#")
-
-spanish_japan_20gen_dates_first30 <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.txt", comment.char="#", header=F, sep=" ")
-
-
-spanish_japan_20gen_dates_first30.output$ind_date_se<-spanish_japan_20gen_dates_first30[match(spanish_japan_20gen_dates_first30.output$pop, spanish_japan_20gen_dates_first30$V1), 5]
-
-spanish_japan_20gen_dates_first30.output<-filter(spanish_japan_20gen_dates_first30.output, model_k==spanish_japan_20gen_dates_first30.output$recommended_k[1])
-
-spanish_japan_20gen_dates_first30.output$ind_date_est_upper <-  ceiling(spanish_japan_20gen_dates_first30.output$ind_date_est + 1.96*  spanish_japan_20gen_dates_first30.output$ind_date_se)
-spanish_japan_20gen_dates_first30.output$ind_date_est_lower<-  floor(spanish_japan_20gen_dates_first30.output$ind_date_est - 1.96*  spanish_japan_20gen_dates_first30.output$ind_date_se)
-
-spanish_japan_20gen_dates_first30.output<-filter(spanish_japan_20gen_dates_first30.output, model_k==1)
-
-pdf("plots/GT_admixplrer_grouped_spanishjapan_20gen.pdf", width=10, height=8)
-ggplot(spanish_japan_20gen_dates_first30.output) + 
-  geom_hline(aes(yintercept = 20), colour="darkblue", size=3, alpha=0.6) +
-  geom_errorbar(aes(x=pop, ymin=ind_date_est_lower, ymax=ind_date_est_upper), size=2, alpha=0.7) + 
-  geom_point(aes(x=pop, y=round(ind_date_est,0)), size=5, alpha=0.6) + 
-  geom_point(aes(x=pop, y=round(joint_date_est_best,0)), colour="red", pch=8, size=3, stroke=1.5) +
-  geom_errorbar(aes(x=pop, ymin=floor(joint_date_lowerci), ymax=ceiling(joint_date_upperci)), colour="red", size=1.5) +
-  # geom_errorbar(aes(x=pop, ymin = sample_age_lowerci_mean, ymax=sample_age_upperci_mean), colour="blue")+
-  labs(x="Individual", y="Inferred admixture date")+
-  theme_minimal()+
-  theme(
-    legend.text = element_text(size = 20),
-    legend.title = element_text(size = 20, face = "bold"),
-    strip.text = element_text(size = 20, face = "bold"),
-    axis.title = element_text(size = 20, face = "bold"),
-    axis.text = element_text(size = 20),
-    axis.text.x = element_blank(),
-    plot.title = element_text(size = 16, face = "bold")
-  ) 
-
-dev.off()
-
-
-
-
-##plotting sample age estimation 
-GT_spanishjapanese_20gen_first30_estimate2age.output <- read.delim("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30_estimate2age.output.txt", comment.char="#")
-GT_spanishjapanese_20gen_first30_estimate2age <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30_estimate2age.txt", header=F)
-
-GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_se<-GT_spanishjapanese_20gen_first30_estimate2age[match(GT_spanishjapanese_20gen_first30_estimate2age.output$pop, GT_spanishjapanese_20gen_first30_estimate2age$V1), 5]
-
-GT_spanishjapanese_20gen_first30_estimate2age.output$sample_age_range_lower<-GT_spanishjapanese_20gen_first30_estimate2age[match(GT_spanishjapanese_20gen_first30_estimate2age.output$pop, GT_spanishjapanese_20gen_first30_estimate2age$V1), 2]
-GT_spanishjapanese_20gen_first30_estimate2age.output$sample_age_range_upper<-GT_spanishjapanese_20gen_first30_estimate2age[match(GT_spanishjapanese_20gen_first30_estimate2age.output$pop, GT_spanishjapanese_20gen_first30_estimate2age$V1), 3]
-
-GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_est_upper <-  GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_est + 1.96*  GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_se
-GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_est_lower<-  GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_est - 1.96*  GT_spanishjapanese_20gen_first30_estimate2age.output$ind_date_se
-
-GT_spanishjapanese_20gen_first30_estimate2age.output<-filter(GT_spanishjapanese_20gen_first30_estimate2age.output, model_k==1)
-
-pdf("plots/GT_admixplrer_grouped_ageest.pdf", width=8, height=8)
-ggplot(GT_spanishjapanese_20gen_first30_estimate2age.output) + 
-    geom_errorbar(aes(x=pop, ymin = sample_age_range_lower, ymax=sample_age_range_upper), colour="pink",linewidth = 4)+
-  geom_point(aes(x=pop, y=ind_date_est)) + 
-  geom_errorbar(aes(x=pop, ymin=ind_date_est_lower, ymax=ind_date_est_upper)) + 
-  geom_point(aes(x=pop, y=joint_date_est_best), colour="red", pch=8) +
-  geom_errorbar(aes(x=pop, ymin=joint_date_lowerci, ymax=joint_date_upperci), colour="red") +
-  geom_hline(aes(yintercept = 40)) +
-  geom_point(aes(x=pop, y=sample_age_est_best), pch=2, colour="blue")+
-  geom_errorbar(aes(x=pop, ymin = sample_age_lowerci_mean, ymax=sample_age_upperci_mean), colour="blue")+
-
-  theme_minimal()
 
 dev.off()
