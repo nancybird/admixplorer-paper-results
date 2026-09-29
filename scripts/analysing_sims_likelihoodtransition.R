@@ -1,9 +1,9 @@
 library(tidyverse)
-clustering_summary_GT <- read.csv("data/simulations/GLOBETROTTER/clustering_summary_gt_smallern.csv")
-clustering_summary_DATES <- read.csv("data/simulations/DATES/clustering_summary_DATES_smallern.csv")
+clustering_summary_GT <- read.csv("data/simulations/GLOBETROTTER/clustering_summary_gt_smallernNEW.csv")
+clustering_summary_DATES <- read.csv("data/simulations/DATES/clustering_summary_gt_smallernNEW.csv")
 
 cv_analysis_GT <- read.csv("data/simulations/GLOBETROTTER/cv_analysis_results_gt.csv")
-cv_analysis_DATES <- read.csv("data/simulations/DATES/cv_analysis_results_dates.csv")
+cv_analysis_DATES <- read.csv("data/simulations/DATES/cv_analysis_results_datesNEW.csv")
 
 clustering_summary_GT$filename<-gsub("output.","", clustering_summary_GT$filename )
 clustering_summary_DATES$filename<-gsub("output.","", clustering_summary_DATES$filename )
@@ -21,32 +21,49 @@ clustering_summary$k2_to_k3<-(clustering_summary$k3_likelihood_per_ind - cluster
 clustering_summary$k3_to_k4<-(clustering_summary$k4_likelihood_per_ind - clustering_summary$k3_likelihood_per_ind)/clustering_summary$cv
 
 
+clustering_summary$n_true_clusters<-as.factor(clustering_summary$n_true_clusters)
+
+library(ggpmisc)
+
+ggplot(clustering_summary, aes(x = total_inds, y = k1_to_k2, color = n_true_clusters)) +
+  geom_point(aes(shape = n_true_clusters)) +
+  geom_smooth(method = "lm", se = TRUE) +
+  stat_poly_eq(aes(label = paste(after_stat(eq.label), after_stat(rr.label), sep = "~~~")),
+               formula = y ~ x, parse = TRUE) +
+  facet_wrap(~method) +
+  theme_minimal()
+
+##seems like threshold doesnt really change with number of individuals???
+#tried standardising gt by # of inds and it didnt help
+
 ###DECIDING THRESHOLDS
 
 test1<-filter(clustering_summary, method=="GT", n_true_clusters==1)
 summary(test1$k1_to_k2)
-quantile(test1$k1_to_k2, 0.98) ## 0.56
+quantile(test1$k1_to_k2, 0.98) ## 0.69
 quantile(test1$clustering_strength_k2, 0.98) # 0.78
-test1_wrong<-filter(test1, clustering_strength_k2 > 0.78 | k1_to_k2 > 0.56 ) #17 / 500 classified wrong
+test1_wrong<-filter(test1, clustering_strength_k2 > 0.78 | k1_to_k2 > 0.69 ) #21 / 500 classified wrong
 
 
 test2<-filter(clustering_summary,  method=="GT",n_true_clusters==2)
 summary(test2$k1_to_k2)
 summary(test2$clustering_strength_k3)
-quantile(test2$k2_to_k3, 0.95) ## 0.34
+quantile(test2$k2_to_k3, 0.95) ## 0.43
 test2_wrong <- filter(test2, 
-                      (k1_to_k2 < 0.56 & clustering_strength_k2 < 0.78) | 
-                        k2_to_k3 > 0.34 & k1_to_k2> 0.66) ##66 / 500 classified wrong
+                      (k1_to_k2 < 0.69 & clustering_strength_k2 < 0.78) | 
+                        k2_to_k3 > 0.43 & k1_to_k2> 0.90) ##126 / 500 classified wrong
 
 test3<-filter(clustering_summary, method=="GT", n_true_clusters==3)
 summary(test3$k3_to_k4)
-quantile(test3$k3_to_k4, 0.95) #0.18
-min(test3$k1_to_k2) #0.66
+quantile(test3$k3_to_k4, 0.95) #0.31
+quantile(test3$k1_to_k2, 0.05) #0.90
+
+
 test3_wrong <- filter(test3, 
-                      (k1_to_k2 < 0.56 & clustering_strength_k2 < 0.78) |  # suggests k=1
-                        (k1_to_k2 < 0.66 | k2_to_k3 < 0.34) |              # NEW: both checks for k=2
-                        k3_to_k4 > 0.18)                                     # suggests k≥4
-## 166 / 500 inds
+                      (k1_to_k2 < 0.69 & clustering_strength_k2 < 0.78) |  # suggests k=1
+                        (k1_to_k2 < 0.90 | k2_to_k3 < 0.43) |              # NEW: both checks for k=2
+                        k3_to_k4 > 0.31)                                     # suggests k≥4
+## 346 / 500 inds
 
 
 
@@ -54,29 +71,29 @@ test3_wrong <- filter(test3,
 
 test1<-filter(clustering_summary, method=="DATES", n_true_clusters==1)
 summary(test1$k1_to_k2)
-quantile(test1$k1_to_k2, 0.98) ## 0.99
-quantile(test1$clustering_strength_k2, 0.98) # 0.97
-test1_wrong<-filter(test1, clustering_strength_k2 > 0.99 | k1_to_k2 > 0.97 ) #15 / 500 classified wrong
+quantile(test1$k1_to_k2, 0.98) ## 1.20
+quantile(test1$clustering_strength_k2, 0.98) # 0.983
+test1_wrong<-filter(test1, clustering_strength_k2 > 0.983 | k1_to_k2 > 1.20 ) #18 / 500 classified wrong
 
 
 test2<-filter(clustering_summary,  method=="DATES",n_true_clusters==2)
 summary(test2$k1_to_k2)
 summary(test2$clustering_strength_k3)
-quantile(test2$k2_to_k3, 0.95) ## 0.58
+quantile(test2$k2_to_k3, 0.95) ## 0.71
 test2_wrong <- filter(test2, 
-                      (k1_to_k2 < 0.99 & clustering_strength_k2 < 0.97) | 
-                        k2_to_k3 > 0.58 & k1_to_k2 > 2.21) ##60 / 500 classified wrong
+                      (k1_to_k2 < 1.20 & clustering_strength_k2 < 0.983) | 
+                        k2_to_k3 > 0.71 & k1_to_k2 > 2.59) ##115 / 500 classified wrong
 
 test3<-filter(clustering_summary, method=="DATES", n_true_clusters==3)
 summary(test3$k3_to_k4)
-quantile(test3$k3_to_k4, 0.95) #0.42
-min(test3$k1_to_k2) #2.21
+quantile(test3$k3_to_k4, 0.95) #0.49
+quantile(test3$k1_to_k2, 0.05) #2.59
 test3_wrong <- filter(test3, 
-                      (k1_to_k2 < 0.99 & clustering_strength_k2 < 0.97) |  # suggests k=1
-                        (k2_to_k3 < 0.58 | k1_to_k2 <2.21) |                                     # suggests k=2
-                        k3_to_k4 > 0.42)      
+                      (k1_to_k2 < 1.20 & clustering_strength_k2 < 0.983) |  # suggests k=1
+                        (k2_to_k3 < 0.71 | k1_to_k2 <2.59) |                                     # suggests k=2
+                        k3_to_k4 > 0.49)      
 
-#169/500 inds
+#315/500 inds
 
 ###ADDING PREDICTIONS
 
@@ -86,16 +103,16 @@ predict_k <- function(df, method) {
   
   if(method == "GT") {
     clust_thresh <- 0.78
-    k1_to_k2_thresh <- 0.56
-    k1_to_k2_thresh_for_k3 <- 0.66  # NEW: stricter threshold for k>=3
-    k2_to_k3_thresh <- 0.34
-    k3_to_k4_thresh <- 0.18
+    k1_to_k2_thresh <- 0.69
+    k1_to_k2_thresh_for_k3 <- 0.90  # NEW: stricter threshold for k>=3
+    k2_to_k3_thresh <- 0.43
+    k3_to_k4_thresh <- 0.31
   } else {  # DATES
-    clust_thresh <- 0.99
-    k1_to_k2_thresh <- 0.97
-    k1_to_k2_thresh_for_k3 <- 2.21  # Use your DATES equivalent
-    k2_to_k3_thresh <- 0.58
-    k3_to_k4_thresh <- 0.42
+    clust_thresh <- 0.983
+    k1_to_k2_thresh <- 1.20
+    k1_to_k2_thresh_for_k3 <- 2.59  
+    k2_to_k3_thresh <- 0.71
+    k3_to_k4_thresh <- 0.49
   }
   
   for(i in 1:nrow(df)) {
@@ -199,7 +216,7 @@ plot_data_ll <- clustering_summary %>%
       TRUE ~ "unknown"
     )
   )
-
+plot_data_ll$transition<-gsub("_", " ", plot_data_ll$transition)
 # === CREATE PLOT DATA FOR CLUSTERING STRENGTH (k2 only) ===
 
 plot_data_clust <- clustering_summary %>%
@@ -213,23 +230,23 @@ plot_data_clust <- clustering_summary %>%
       n_true_clusters %in% c(2, 3) ~ generation_combo,
       TRUE ~ "unknown"
     ),
-    transition = "k1_to_k2"  # For merging with likelihood data
+    transition = "k1 to k2"  # For merging with likelihood data
   )
 
 # === PLOT 1: LIKELIHOOD IMPROVEMENTS BY METHOD ===
 # Define thresholds for each method
 thresholds_GT <- data.frame(
   method = "GT",
-  transition = c("k1_to_k2", "k2_to_k3", "k3_to_k4"),
-  threshold_value = c(0.56, 0.34, 0.18),
+  transition = c("k1 to k2", "k2 to k3", "k3 to k4"),
+  threshold_value = c(0.69, 0.43, 0.31),
   threshold_type = c("k>=2", "k>=3", "k>=4"),
   stringsAsFactors = FALSE
 )
 
 thresholds_DATES <- data.frame(
   method = "DATES",
-  transition = c("k1_to_k2", "k2_to_k3", "k3_to_k4"),
-  threshold_value = c(0.97, 0.58, 0.42),
+  transition = c("k1 to k2", "k2 to k3", "k3 to k4"),
+  threshold_value = c(1.20, 0.71, 0.49),
   threshold_type = c("k>=2", "k>=3", "k>=4"),
   stringsAsFactors = FALSE
 )
@@ -237,16 +254,16 @@ thresholds_DATES <- data.frame(
 # NEW: Add the stricter k1_to_k2 threshold for k>=3
 thresholds_k3_GT <- data.frame(
   method = "GT",
-  transition = "k1_to_k2",
-  threshold_value = 0.66,
+  transition = "k1 to k2",
+  threshold_value = 0.90,
   threshold_type = "k>=3 (stricter)",
   stringsAsFactors = FALSE
 )
 
 thresholds_k3_DATES <- data.frame(
   method = "DATES",
-  transition = "k1_to_k2",
-  threshold_value = 2.21,
+  transition = "k1 to k2",
+  threshold_value = 2.59,
   threshold_type = "k>=3 (stricter)",
   stringsAsFactors = FALSE
 )
@@ -263,6 +280,7 @@ shape_values <- c(
   "predicted_k4" = 52
 )
 
+
 p_likelihood <- ggplot(plot_data_ll, 
                        aes(x = factor(n_true_clusters), 
                            y = likelihood_improvement)) +
@@ -271,7 +289,7 @@ p_likelihood <- ggplot(plot_data_ll,
                alpha = 0.5, outlier.shape = NA) +
   geom_jitter(aes(color = plot_generation, shape = classification), 
               position = position_jitterdodge(dodge.width = 0.8, jitter.width = 0.15),
-              alpha = 0.6, size = 2) +
+              alpha = 0.85, size = 3.2) +
   # Original thresholds (red dashed)
   geom_hline(data = thresholds_combined, 
              aes(yintercept = threshold_value), 
@@ -290,25 +308,24 @@ p_likelihood <- ggplot(plot_data_ll,
     x = "True Number of Clusters", 
     y = "Scaled Likelihood Improvement",
     fill = "Generation",
-    color = "Generation",
-    title = "Likelihood Improvements by Method",
-    subtitle = "Red dashed = base thresholds; Blue dotted = stricter k1→k2 threshold for k≥3"
+    color = "Generation"
   ) +
   theme_minimal(base_size = 16) +  # Increased base size from default (11) to 16
   theme(
     legend.position = "right",
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels (increased from 10)
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
+    legend.text = element_text(size = 23),      # Legend text
+    legend.title = element_text(size = 23, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 23, face = "bold"),    # Facet labels (increased from 10)
+    axis.title = element_text(size = 23, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
     plot.title = element_text(size = 17, face = "bold"),    # Main title
     plot.subtitle = element_text(size = 13),                 # Subtitle
     panel.spacing = unit(1, "lines")
   )
 
 
-pdf("plots/likelihood_threshold_calcs.pdf", width=12, height=10)
+
+pdf("plots/likelihood_threshold_calcs.pdf", width=18, height=15)
 print(p_likelihood)
 dev.off()
 
@@ -329,15 +346,15 @@ plot_data_k1tok2 <- clustering_summary %>%
 
 # Define threshold lines for each method
 clust_thresh_GT <- 0.78
-ll_thresh_GT <- 0.56
-clust_thresh_DATES <- 0.99
-ll_thresh_DATES <- 0.97
+ll_thresh_GT <- 0.69
+clust_thresh_DATES <- 0.983
+ll_thresh_DATES <- 1.20
 
 p_combined <- ggplot(plot_data_k1tok2, 
                      aes(x = clustering_strength_k2, 
                          y = k1_to_k2)) +
   geom_point(aes(color = plot_generation, shape = classification),
-             alpha = 0.6, size = 2.5) +
+             alpha = 0.85, size = 2.5) +
   # Add threshold lines for each method's facet
   geom_vline(data = data.frame(method = "GT", x = clust_thresh_GT),
              aes(xintercept = x), color = "red", linetype = "dashed", linewidth = 1) +
@@ -355,19 +372,17 @@ p_combined <- ggplot(plot_data_k1tok2,
   ) +
   labs(
     x = "Clustering Strength (k=2)",
-    y = "Scaled Likelihood Improvement (k1→k2)",
-    color = "Generation",
-    title = "k=1 vs k=2 Decision: Clustering Strength vs Likelihood",
-    subtitle = "Red lines = method thresholds"
+    y = "Scaled Likelihood Improvement (k1 to k2)",
+    color = "Generation"
   ) +
   theme_minimal(base_size = 16) +  # Increased base size from default (11) to 16
   theme(
     legend.position = "right",
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels (increased from 10)
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels (increased from 10)
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
     plot.title = element_text(size = 17, face = "bold"),    # Main title
     plot.subtitle = element_text(size = 13),                 # Subtitle
     panel.spacing = unit(1, "lines")
@@ -442,14 +457,19 @@ comparison_data <- clustering_summary %>%
   )
 
 print(comparison_data)
+# Define all possible classification levels
+all_classifications <- c("correct","predicted_k1" ,"predicted_k2" ,"predicted_k3", "predicted_k4")  # Adjust to your actual levels
+
+clustering_summary <- clustering_summary %>%
+  mutate(classification = factor(classification, levels = all_classifications))
 
 # Plot number inds comparison
 p_total_inds <- ggplot(clustering_summary, aes(x = factor(n_true_clusters), y = total_inds, 
-                                            fill = classification)) +
+                                               fill = classification)) +
   geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
   facet_wrap(~method) +
   geom_jitter(aes(color = classification), 
-              alpha = 0.5, 
+              alpha = 0.8, 
               position = position_jitterdodge(dodge.width = 0.8, jitter.width = 0.2)) +
   scale_y_log10() + 
   labs(x = "True Number of Clusters", 
@@ -458,21 +478,372 @@ p_total_inds <- ggplot(clustering_summary, aes(x = factor(n_true_clusters), y = 
        color = "Classification") +  # Added color legend label
   theme_minimal(base_size = 16) +  # Increased base size from default (11) to 16
   theme(
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
     plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
     plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
   )
 
 
 
-print(p_total_inds)
-pdf("plots/sims_classification_by_total_inds.pdf", width=10, height=8)
+pdf("plots/sims_classification_by_total_inds.pdf", width=15, height=10)
 p_total_inds
 dev.off()
+
+library(dplyr)
+
+# Create binary outcome
+clustering_summary <- clustering_summary %>%
+  mutate(is_correct = ifelse(classification == "correct", 1, 0))
+
+# Logistic regression for each method and true k
+cat("\n=== LOGISTIC REGRESSION RESULTS ===\n\n")
+
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s\n", m))
+  
+  for (k in sort(unique(clustering_summary$n_true_clusters))) {
+    subset_data <- clustering_summary %>% 
+      filter(method == m, n_true_clusters == k)
+    
+    # Fit model
+    model <- glm(is_correct ~ total_inds, 
+                 data = subset_data, 
+                 family = binomial)
+    
+    # Extract results
+    coef_summary <- summary(model)$coefficients
+    estimate <- coef_summary["total_inds", "Estimate"]
+    p_value <- coef_summary["total_inds", "Pr(>|z|)"]
+    
+    # Odds ratio
+    OR <- exp(estimate)
+    
+    # Sample info
+    n_cases <- nrow(subset_data)
+    accuracy <- mean(subset_data$is_correct)
+    
+    cat(sprintf("  k=%s: n=%d, accuracy=%.2f, OR=%.4f, p=%.4f %s\n",
+                k, n_cases, accuracy, OR, p_value,
+                ifelse(p_value < 0.05, "*", "")))
+  }
+  cat("\n")
+}
+
+cat("\n=== MISCLASSIFICATION PATTERNS ===\n\n")
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s (True k=1)\n", m))
+  
+  subset_data <- clustering_summary %>%
+    filter(method == m, n_true_clusters == 1)
+  
+  if (nrow(subset_data) > 0) {
+    subset_data <- subset_data %>%
+      mutate(misclass_k2 = ifelse(predicted_k == 2, 1, 0))
+    
+    if (sum(subset_data$misclass_k2) > 5) {
+      model_k2 <- glm(misclass_k2 ~ total_inds, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k2 <- summary(model_k2)$coefficients
+      OR_k2 <- exp(coef_k2["total_inds", "Estimate"])
+      p_k2 <- coef_k2["total_inds", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=2: OR=%.4f, p=%.4f %s\n",
+                  OR_k2, p_k2, ifelse(p_k2 < 0.05, "*", "")))
+    }
+  }
+  cat("\n")
+}
+
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s\n", m))
+  
+  for (k_true in sort(unique(clustering_summary$n_true_clusters))) {
+    cat(sprintf("\n  True k=%s:\n", k_true))
+    
+    # Get misclassified cases
+    misclass <- clustering_summary %>%
+      filter(method == m, n_true_clusters == k_true, classification != "correct")
+    
+    if (nrow(misclass) > 0) {
+      # Count each type of misclassification
+      misclass_summary <- misclass %>%
+        group_by(predicted_k) %>%
+        summarise(
+          n_cases = n(),
+          mean_inds = mean(total_inds),
+          median_inds = median(total_inds),
+          .groups = "drop"
+        ) %>%
+        arrange(desc(n_cases))
+      
+      for (i in 1:nrow(misclass_summary)) {
+        cat(sprintf("    Predicted k=%s: n=%d cases (median individuals=%.0f)\n",
+                    misclass_summary$predicted_k[i],
+                    misclass_summary$n_cases[i],
+                    misclass_summary$median_inds[i]))
+      }
+    } else {
+      cat("    No misclassifications!\n")
+    }
+  }
+  cat("\n")
+}
+
+# ============================================================================
+# 2. Logistic regression by misclassification type
+# ============================================================================
+
+cat("\n=== SAMPLE SIZE EFFECT ON SPECIFIC MISCLASSIFICATIONS ===\n\n")
+
+# For k=2
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s (True k=2)\n", m))
+  
+  subset_data <- clustering_summary %>%
+    filter(method == m, n_true_clusters == 2)
+  
+  if (nrow(subset_data) > 0) {
+    subset_data <- subset_data %>%
+      mutate(
+        misclass_k1 = ifelse(predicted_k == 1, 1, 0),
+        misclass_k3 = ifelse(predicted_k == 3, 1, 0)
+      )
+    
+    # Model for predicting k=1 when true k=2
+    if (sum(subset_data$misclass_k1) > 5) {
+      model_k1 <- glm(misclass_k1 ~ total_inds, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k1 <- summary(model_k1)$coefficients
+      OR_k1 <- exp(coef_k1["total_inds", "Estimate"])
+      p_k1 <- coef_k1["total_inds", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=1: OR=%.4f, p=%.4f %s\n",
+                  OR_k1, p_k1, ifelse(p_k1 < 0.05, "*", "")))
+    }
+    
+    # Model for predicting k=3 when true k=2
+    if (sum(subset_data$misclass_k3) > 5) {
+      model_k3 <- glm(misclass_k3 ~ total_inds, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k3 <- summary(model_k3)$coefficients
+      OR_k3 <- exp(coef_k3["total_inds", "Estimate"])
+      p_k3 <- coef_k3["total_inds", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=3: OR=%.4f, p=%.4f %s\n",
+                  OR_k3, p_k3, ifelse(p_k3 < 0.05, "*", "")))
+    }
+  }
+  cat("\n")
+}
+
+# For k=3
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s (True k=3)\n", m))
+  
+  subset_data <- clustering_summary %>%
+    filter(method == m, n_true_clusters == 3)
+  
+  if (nrow(subset_data) > 0) {
+    subset_data <- subset_data %>%
+      mutate(
+        misclass_k2 = ifelse(predicted_k == 2, 1, 0),
+        misclass_k4 = ifelse(predicted_k == 4, 1, 0)
+      )
+    
+    # Model for predicting k=2 when true k=3
+    if (sum(subset_data$misclass_k2) > 5) {
+      model_k2 <- glm(misclass_k2 ~ total_inds, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k2 <- summary(model_k2)$coefficients
+      OR_k2 <- exp(coef_k2["total_inds", "Estimate"])
+      p_k2 <- coef_k2["total_inds", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=2: OR=%.4f, p=%.4f %s\n",
+                  OR_k2, p_k2, ifelse(p_k2 < 0.05, "*", "")))
+    }
+    
+    # Model for predicting k=4 when true k=3
+    if (sum(subset_data$misclass_k4) > 5) {
+      model_k4 <- glm(misclass_k4 ~ total_inds, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k4 <- summary(model_k4)$coefficients
+      OR_k4 <- exp(coef_k4["total_inds", "Estimate"])
+      p_k4 <- coef_k4["total_inds", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=4: OR=%.4f, p=%.4f %s\n",
+                  OR_k4, p_k4, ifelse(p_k4 < 0.05, "*", "")))
+    }
+  }
+  cat("\n")
+}
+
+
+
+
+##### new more simple pplot:
+library(dplyr)
+library(ggplot2)
+library(forcats)
+
+# If you already have a numeric predicted_k column, use that directly.
+# Otherwise derive it from your classification factor like:
+
+clustering_summary2 <- clustering_summary %>%
+  mutate(
+    # make sure true k is numeric, not factor
+    n_true_clusters_num = as.integer(as.character(n_true_clusters)),
+    
+    predicted_k = case_when(
+      classification == "correct"        ~ n_true_clusters_num,
+      classification == "predicted_k1"   ~ 1L,
+      classification == "predicted_k2"   ~ 2L,
+      classification == "predicted_k3"   ~ 3L,
+      classification == "predicted_k4"   ~ 4L,
+      TRUE                               ~ NA_integer_
+    ),
+    
+    over_under = case_when(
+      is.na(predicted_k)                      ~ NA_character_,
+      predicted_k >  n_true_clusters_num      ~ "over_clustered",
+      predicted_k <  n_true_clusters_num      ~ "under_clustered",
+      predicted_k == n_true_clusters_num      ~ "correct"
+    )
+  )
+
+# Define bins of total_inds (tune breaks/labels as you like)
+clustering_binned <- clustering_summary2 %>%
+  mutate(
+    n_bin = cut(
+      total_inds,
+      breaks = c(0, 25,50, 100, 150, 200),  # adjust as appropriate
+      labels = c("<=25", "26–50", "51–100", "101–150", "141-200"),
+      right = TRUE,
+      include.lowest = TRUE
+    )
+  ) %>%
+  filter(!is.na(over_under))  # drop rows where we couldn't define category
+
+# 1. Counts per outcome
+over_under_counts <- clustering_binned %>%
+  group_by(method, n_bin, n_true_clusters, over_under) %>%
+  summarise(n = n(), .groups = "drop")
+
+# 2. Totals per bin (method, n_bin, n_true_clusters)
+bin_totals <- over_under_counts %>%
+  group_by(method, n_bin, n_true_clusters) %>%
+  summarise(total_in_bin = sum(n), .groups = "drop")
+
+# 3. Join and compute percentages
+over_under_summary <- over_under_counts %>%
+  left_join(bin_totals,
+            by = c("method", "n_bin", "n_true_clusters")) %>%
+  mutate(
+    pct = 100 * n / total_in_bin
+  )
+
+
+gg_over_under <- ggplot(over_under_summary,
+                        aes(x = n_bin, y = pct, fill = over_under)) +
+  geom_col(position = "stack", alpha = 0.8) +
+  facet_wrap(~ method+n_true_clusters) +
+  labs(
+    x = "Number of individuals",
+    y = "Percentage of runs",
+    fill = "Outcome"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "over_clustered" = "#D55E00",
+      "under_clustered" = "#0072B2",
+      "correct" = "#009E73"
+    )
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 16, face = "bold")
+  )
+
+pdf("plots/sims_over_under_by_total_inds_bins.pdf", width = 12, height = 9)
+print(gg_over_under)
+dev.off()
+
+
+
+# Define bins of total_inds (tune breaks/labels as you like)
+clustering_binned <- clustering_summary2 %>%
+  mutate(
+    n_bin = cut(
+      cluster_balance_ratio,
+      breaks = c(0, 2,4, 6, 10, 15),  # adjust as appropriate
+      labels = c("<=2", "3-4", "5-6", "7-10", "11-15"),
+      right = TRUE,
+      include.lowest = TRUE
+    )
+  ) %>%
+  filter(!is.na(over_under))  # drop rows where we couldn't define category
+
+# 1. Counts per outcome
+over_under_counts <- clustering_binned %>%
+  group_by(method, n_bin, n_true_clusters, over_under) %>%
+  summarise(n = n(), .groups = "drop")
+
+# 2. Totals per bin (method, n_bin, n_true_clusters)
+bin_totals <- over_under_counts %>%
+  group_by(method, n_bin, n_true_clusters) %>%
+  summarise(total_in_bin = sum(n), .groups = "drop")
+
+# 3. Join and compute percentages
+over_under_summary <- over_under_counts %>%
+  left_join(bin_totals,
+            by = c("method", "n_bin", "n_true_clusters")) %>%
+  mutate(
+    pct = 100 * n / total_in_bin
+  )
+
+
+gg_over_under <- ggplot(filter(over_under_summary, n_true_clusters!=1),
+                        aes(x = n_bin, y = pct, fill = over_under)) +
+  geom_col(position = "stack", alpha = 0.8) +
+  facet_wrap(~ method+n_true_clusters) +
+  labs(
+    x = "Ratio between minimun and maximum number of individuals in a cluster",
+    y = "Percentage of runs",
+    fill = "Outcome"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "over_clustered" = "#D55E00",
+      "under_clustered" = "#0072B2",
+      "correct" = "#009E73"
+    )
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 16, face = "bold")
+  )
+
+pdf("plots/sims_over_under_by_tclusterimbalance.pdf", width = 12, height = 9)
+print(gg_over_under)
+dev.off()
+
+
 
 
 
@@ -482,7 +853,7 @@ p_balance <- ggplot(clustering_summary[clustering_summary$n_true_clusters!=1, ],
   geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
   facet_wrap(~method) +
   geom_jitter(aes(color = classification), 
-              alpha = 0.5, 
+              alpha = 0.8, 
               position = position_jitterdodge(dodge.width = 0.8, jitter.width = 0.2)) +
   scale_y_log10() + 
   labs(x = "True Number of Clusters", 
@@ -491,22 +862,108 @@ p_balance <- ggplot(clustering_summary[clustering_summary$n_true_clusters!=1, ],
        color = "Classification") +  # Added color legend label
   theme_minimal(base_size = 16) +  # Increased base size from default (11) to 16
   theme(
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
     plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
     plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
   )
 
 
-
 print(p_balance)
-pdf("plots/sims_classification_by_cluster_balance.pdf", width=10, height=8)
+pdf("plots/sims_classification_by_cluster_balance.pdf", width=15, height=10)
 p_balance
 dev.off()
 
+cat("\n=== BALANCE RATIO EFFECT ON SPECIFIC MISCLASSIFICATIONS ===\n\n")
+
+# For k=2
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s (True k=2)\n", m))
+  
+  subset_data <- clustering_summary %>%
+    filter(method == m, n_true_clusters == 2)
+  
+  if (nrow(subset_data) > 0) {
+    subset_data <- subset_data %>%
+      mutate(
+        misclass_k1 = ifelse(predicted_k == 1, 1, 0),
+        misclass_k3 = ifelse(predicted_k == 3, 1, 0)
+      )
+    
+    # Model for predicting k=1 when true k=2
+    if (sum(subset_data$misclass_k1) > 5) {
+      model_k1 <- glm(misclass_k1 ~ cluster_balance_ratio, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k1 <- summary(model_k1)$coefficients
+      OR_k1 <- exp(coef_k1["cluster_balance_ratio", "Estimate"])
+      p_k1 <- coef_k1["cluster_balance_ratio", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=1: OR=%.4f, p=%.4f %s\n",
+                  OR_k1, p_k1, ifelse(p_k1 < 0.05, "*", "")))
+    }
+    
+    # Model for predicting k=3 when true k=2
+    if (sum(subset_data$misclass_k3) > 5) {
+      model_k3 <- glm(misclass_k3 ~ cluster_balance_ratio, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k3 <- summary(model_k3)$coefficients
+      OR_k3 <- exp(coef_k3["cluster_balance_ratio", "Estimate"])
+      p_k3 <- coef_k3["cluster_balance_ratio", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=3: OR=%.4f, p=%.4f %s\n",
+                  OR_k3, p_k3, ifelse(p_k3 < 0.05, "*", "")))
+    }
+  }
+  cat("\n")
+}
+
+# For k=3
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s (True k=3)\n", m))
+  
+  subset_data <- clustering_summary %>%
+    filter(method == m, n_true_clusters == 3)
+  
+  if (nrow(subset_data) > 0) {
+    subset_data <- subset_data %>%
+      mutate(
+        misclass_k2 = ifelse(predicted_k == 2, 1, 0),
+        misclass_k4 = ifelse(predicted_k == 4, 1, 0)
+      )
+    
+    # Model for predicting k=2 when true k=3
+    if (sum(subset_data$misclass_k2) > 5) {
+      model_k2 <- glm(misclass_k2 ~ cluster_balance_ratio, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k2 <- summary(model_k2)$coefficients
+      OR_k2 <- exp(coef_k2["cluster_balance_ratio", "Estimate"])
+      p_k2 <- coef_k2["cluster_balance_ratio", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=2: OR=%.4f, p=%.4f %s\n",
+                  OR_k2, p_k2, ifelse(p_k2 < 0.05, "*", "")))
+    }
+    
+    # Model for predicting k=4 when true k=3
+    if (sum(subset_data$misclass_k4) > 5) {
+      model_k4 <- glm(misclass_k4 ~ cluster_balance_ratio, 
+                      data = subset_data, 
+                      family = binomial)
+      coef_k4 <- summary(model_k4)$coefficients
+      OR_k4 <- exp(coef_k4["cluster_balance_ratio", "Estimate"])
+      p_k4 <- coef_k4["cluster_balance_ratio", "Pr(>|z|)"]
+      
+      cat(sprintf("  Misclassify as k=4: OR=%.4f, p=%.4f %s\n",
+                  OR_k4, p_k4, ifelse(p_k4 < 0.05, "*", "")))
+    }
+  }
+  cat("\n")
+}
 
 
 # 1. Compute max_accuracy
@@ -525,18 +982,14 @@ k2_data <- clustering_summary %>%
   filter(n_true_clusters !=1)
 
 
-pdf("plots/sims_clusteringsaccuracy.pdf", width=10, height=8)
+pdf("plots/sims_clusteringsaccuracy_newmeasure.pdf", width=15, height=10)
 # 3. Plot boxplot + jitter, colored by generation_combo and shaped by classification
-ggplot(k2_data, aes(
-  x = factor(n_true_clusters),  # will be "2" for all
-  y = max_accuracy)) +
+ggplot(filter(clustering_summary_pred, n_true_clusters!=1), aes(
+  x = factor(generation_combo),  # will be "2" for all
+  y = pair_together_pred)) +
   # geom_boxplot(outlier.shape = NA, fill = "lightgray") +
-  geom_jitter(aes(
-    color = generation_combo,
-    shape = classification),
-    width = 0.2,
-    alpha = 0.7,
-    size = 3.5) +  # Increased from 2 to 3.5
+  geom_boxplot(aes(
+    color = generation_combo)) +  # Increased from 2 to 3.5
   scale_color_viridis_d(
     name = "Gen Combination",
     option = "plasma"
@@ -547,27 +1000,82 @@ ggplot(k2_data, aes(
     name = "Classification"
   ) +
   labs(
-    x = "True Number of Clusters",
-    y = "Clustering Accuracy for true k",
-    title = "Clustering Accuracy by Generation Combination"
+    x = "Generation combination",
+    y = "Percentage of pairs correctly together"
   ) +
   facet_wrap(~method) +
   theme_minimal(base_size = 16) +  # Increased base size
   theme(
-    axis.text.x = element_text(size = 14),
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
-    plot.title = element_text(size = 17, face = "bold")     # Main title
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
+    plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
+    plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
   )
+
 
 
 dev.off()
 
 
-pdf("plots/sims_clusteringsaccuracy_vs_balance_ratio.pdf", width=12, height=10)
+
+pair_binned_balance <- clustering_summary_pred %>%
+  mutate(
+    n_bin_balance = cut(
+      cluster_balance_ratio,
+      breaks = c(0, 2, 4, 6, 10, 15),
+      labels = c("<=2", "3–4", "5–6", "7–10", "11–15"),
+      right = TRUE,
+      include.lowest = TRUE
+    )
+  )
+
+
+pdf("plots/sims_clusteringsaccuracy_newmeasure.pdf", width=15, height=10)
+# 3. Plot boxplot + jitter, colored by generation_combo and shaped by classification
+ggplot(filter(m, n_true_clusters!=1), aes(
+  x = factor(n_bin_balance),  # will be "2" for all
+  y = pair_wrong_together_pred)) +
+  # geom_boxplot(outlier.shape = NA, fill = "lightgray") +
+  geom_boxplot(aes(
+    )) +  # Increased from 2 to 3.5
+  scale_color_viridis_d(
+    name = "Gen Combination",
+    option = "plasma"
+  ) +
+  scale_shape_manual(
+    values = shape_values,
+    labels = c("Correct", "Pred: k=1", "Pred: k=2", "Pred: k=3", "Pred: k=4"),
+    name = "Classification"
+  ) +
+  labs(
+    x = "Generation combination",
+    y = "Percentage of pairs correctly together"
+  ) +
+  facet_wrap(~method) +
+  theme_minimal(base_size = 16) +  # Increased base size
+  theme(
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
+    plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
+    plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
+  )
+
+
+
+dev.off()
+
+
+
+
+
+
+pdf("plots/sims_clusteringsaccuracy_vs_balance_ratio.pdf", width=15, height=10)
 ggplot(clustering_summary[clustering_summary$n_true_clusters!=1,]) +
   geom_point(aes(x=max_accuracy, y=cluster_balance_ratio, color = generation_combo,
                  shape = classification),
@@ -583,41 +1091,665 @@ ggplot(clustering_summary[clustering_summary$n_true_clusters!=1,]) +
   labs(x="Clustering accuracy for true k", y="Ratio between minimun and maximum number of individuals in a
 cluster")+theme_minimal(base_size = 16) +  # Increased base size
   theme(
-    axis.text.x = element_text(size = 14),
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
-    plot.title = element_text(size = 17, face = "bold")     # Main title
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
+    plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
+    plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
   )
 dev.off()
 
 
 
 
-pdf("plots/sims_clusteringsaccuracy_vs_total_inds.pdf", width=12, height=10)
-ggplot(clustering_summary[clustering_summary$n_true_clusters!=1,]) +
-  geom_point(aes(x=max_accuracy, y=total_inds, color = generation_combo,
-                 shape = classification),
+pdf("plots/sims_clusteringsaccuracy_vs_total_inds.pdf", width=15, height=10)
+ggplot(clustering_summary_pred[clustering_summary_pred$n_true_clusters!=1,]) +
+  geom_point(aes(y=pair_together_pred, x=total_inds, color = generation_combo),
              size = 3.5) +  scale_color_viridis_d(
                name = "Gen Combination",
                option = "plasma"
-             ) +
-  scale_shape_manual(
-    values = shape_values,
-    labels = c("Correct", "Pred: k=1", "Pred: k=2", "Pred: k=3", "Pred: k=4"),
-    name = "Classification"
-  ) + facet_wrap(~method)+
-  labs(x="Clustering accuracy for true k", y="Total individuals")+theme_minimal(base_size = 16) +  # Increased base size
+             ) + facet_wrap(~method)+
+  labs(y="Pairs together correct", x="Total individuals")+theme_minimal(base_size = 16) +  # Increased base size
   theme(
-    axis.text.x = element_text(size = 14),
-    legend.text = element_text(size = 14),      # Legend text
-    legend.title = element_text(size = 15, face = "bold"),  # Legend titles
-    strip.text = element_text(size = 14, face = "bold"),    # Facet labels
-    axis.title = element_text(size = 15, face = "bold"),    # Axis titles
-    axis.text = element_text(size = 13),                     # Axis tick labels
-    plot.title = element_text(size = 17, face = "bold")     # Main title
+    legend.text = element_text(size = 20),      # Legend text
+    legend.title = element_text(size = 20, face = "bold"),  # Legend titles
+    strip.text = element_text(size = 20, face = "bold"),    # Facet labels
+    axis.title = element_text(size = 20, face = "bold"),    # Axis titles
+    axis.text = element_text(size = 17),                     # Axis tick labels
+    plot.title = element_text(size = 17, face = "bold"),    # Main title (if you add one)
+    plot.subtitle = element_text(size = 13)                  # Subtitle (if you add one)
   )
 dev.off()
 
+
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(patchwork)  # install.packages("patchwork") if needed
+
+## 1. Add pairwise measures at predicted k ----
+
+clustering_summary_pred <- clustering_summary2 %>%
+  mutate(
+    pair_together_pred = case_when(
+      predicted_k == 2L ~ pair_together_correct_k2,
+      predicted_k == 3L ~ pair_together_correct_k3,
+      predicted_k == 4L ~ pair_together_correct_k4,
+      TRUE              ~ NA_real_
+    ),
+    pair_apart_pred = case_when(
+      predicted_k == 2L ~ pair_apart_correct_k2,
+      predicted_k == 3L ~ pair_apart_correct_k3,
+      predicted_k == 4L ~ pair_apart_correct_k4,
+      TRUE              ~ NA_real_
+    ),
+    pair_wrong_together_pred = case_when(
+      predicted_k == 2L ~ pair_wrong_together_pred_k2,
+      predicted_k == 3L ~ pair_wrong_together_pred_k3,
+      predicted_k == 4L ~ pair_wrong_together_pred_k4,
+      TRUE              ~ NA_real_
+    )
+  )
+
+## 2. Plot 1: total_inds bins vs pair_together_pred (points, coloured by gen combo) ----
+
+pair_binned_total_inds <- clustering_summary_pred %>%
+  mutate(
+    n_bin_inds = cut(
+      total_inds,
+      breaks = c(0, 25, 50, 100, 150, 200),
+      labels = c("<=25", "26–50", "51–100", "101–150", "151–200"),
+      right = TRUE,
+      include.lowest = TRUE
+    )
+  )
+
+
+# 1. Counts per outcome
+over_under_counts <- clustering_binned %>%
+  group_by(method, n_bin, n_true_clusters, over_under) %>%
+  summarise(n = n(), .groups = "drop")
+
+# 2. Totals per bin (method, n_bin, n_true_clusters)
+bin_totals <- over_under_counts %>%
+  group_by(method, n_bin, n_true_clusters) %>%
+  summarise(total_in_bin = sum(n), .groups = "drop")
+
+# 3. Join and compute percentages
+over_under_summary <- over_under_counts %>%
+  left_join(bin_totals,
+            by = c("method", "n_bin", "n_true_clusters")) %>%
+  mutate(
+    pct = 100 * n / total_in_bin
+  )
+
+
+gg_over_under <- ggplot(filter(over_under_summary, n_true_clusters!=1),
+                        aes(x = n_bin, y = pct, fill = over_under)) +
+  geom_col(position = "stack", alpha = 0.8) +
+  facet_wrap(~ method+n_true_clusters) +
+  labs(
+    x = "Ratio between minimun and maximum number of individuals in a cluster",
+    y = "Percentage of runs",
+    fill = "Outcome"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "over_clustered" = "#D55E00",
+      "under_clustered" = "#0072B2",
+      "correct" = "#009E73"
+    )
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 16, face = "bold")
+  )
+
+
+
+
+
+
+ggplot(
+  filter(pair_binned_total_inds, !n_true_clusters),
+  aes(x = n_bin_inds, y = pair_together_pred)
+) +
+  geom_col(
+    position ="stack",
+    alpha = 0.8,
+    size = 2.8
+  ) +
+  facet_wrap(~ method+ generation_combo) +
+
+  labs(
+    x = "Number of individuals",
+    y = "Pairs together correct"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title   = element_text(size = 20, face = "bold"),
+    axis.text    = element_text(size = 14),
+    strip.text   = element_text(size = 18, face = "bold"),
+    legend.title = element_text(size = 18, face = "bold"),
+    legend.text  = element_text(size = 14)
+  )
+
+## 3. Plot 2: cluster_balance_ratio bins vs pair_together_pred (points, coloured by gen combo) ----
+
+pair_binned_balance <- clustering_summary_pred %>%
+  mutate(
+    n_bin_balance = cut(
+      cluster_balance_ratio,
+      breaks = c(0, 2, 4, 6, 10, 15),
+      labels = c("<=2", "3–4", "5–6", "7–10", "11–15"),
+      right = TRUE,
+      include.lowest = TRUE
+    )
+  )
+
+p_balance <- ggplot(
+  pair_binned_balance,
+  aes(x = n_bin_balance, y = pair_together_pred, colour = generation_combo)
+) +
+  geom_point(
+    position = position_jitter(width = 0.1, height = 0),
+    alpha = 0.8,
+    size = 2.8
+  ) +
+  facet_wrap(~ method) +
+  scale_color_viridis_d(
+    name = "Gen combination",
+    option = "plasma"
+  ) +
+  labs(
+    x = "Cluster balance ratio (binned)",
+    y = "Pairwise 'together' accuracy\n(at predicted k)"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title   = element_text(size = 20, face = "bold"),
+    axis.text    = element_text(size = 14),
+    strip.text   = element_text(size = 18, face = "bold"),
+    legend.title = element_text(size = 18, face = "bold"),
+    legend.text  = element_text(size = 14)
+  )
+
+## 4. Stack the two plots and save as a single PDF ----
+
+combined_plot <- p_inds / p_balance + plot_layout(ncol = 1)
+
+pdf("plots/sims_pairwise_together_pred_by_inds_and_balance_bins.pdf",
+    width = 12, height = 12)
+print(combined_plot)
+dev.off()
+pdf("plots/sims_pairwise_together_pred_by_total_inds_bins.pdf", width = 12, height = 8)
+ggplot(pair_binned_total,
+       aes(x = n_bin, y = mean_pair_together_pred)) +
+  geom_col(fill = "#0072B2", alpha = 0.8) +
+  facet_wrap(~ method ) +
+  labs(
+    x = "Number of individuals (binned)",
+    y = "Mean pairwise clustering accuracy"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.text  = element_text(size = 14),
+    strip.text = element_text(size = 18, face = "bold")
+  )
+dev.off()
+
+
+
+###ok stats test for this
+# Spearman correlation by generation combo
+cat("\n=== SPEARMAN CORRELATION BY GENERATION COMBO ===\n\n")
+
+for (m in unique(clustering_summary$method)) {
+  cat(sprintf("## %s\n\n", m))
+  
+  for (gen in unique(clustering_summary$generation_combo)) {
+    cat(sprintf("  ### %s\n", gen))
+    
+    subset_data <- clustering_summary %>%
+      filter(method == m, n_true_clusters != 1, generation_combo == gen)
+    
+    if (nrow(subset_data) >= 20) {
+      # Total individuals vs accuracy
+      cor_inds <- cor.test(subset_data$total_inds, subset_data$max_accuracy, 
+                           method = "spearman")
+      cat(sprintf("    Total inds vs accuracy: rho=%.3f, p=%.4f %s\n",
+                  cor_inds$estimate, cor_inds$p.value,
+                  ifelse(cor_inds$p.value < 0.05, "*", "")))
+      
+      # Balance ratio vs accuracy
+      cor_balance <- cor.test(subset_data$cluster_balance_ratio, subset_data$max_accuracy,
+                              method = "spearman")
+      cat(sprintf("    Balance ratio vs accuracy: rho=%.3f, p=%.4f %s\n",
+                  cor_balance$estimate, cor_balance$p.value,
+                  ifelse(cor_balance$p.value < 0.05, "*", "")))
+    } else {
+      cat(sprintf("    (Insufficient data: n=%d)\n", nrow(subset_data)))
+    }
+    
+    cat("\n")
+  }
+}
+
+
+###not to show how often they overlap with the true date
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+
+# Function to check if CI overlaps with true date
+# Rounds lower CI down and upper CI up to nearest generation
+ci_overlaps <- function(ci_lower, ci_upper, true_date) {
+  if(is.na(ci_lower) || is.na(ci_upper) || is.na(true_date)) return(FALSE)
+  
+  # Round lower bound down, upper bound up to nearest generation
+  ci_lower_rounded <- floor(ci_lower)
+  ci_upper_rounded <- ceiling(ci_upper)
+  
+  true_date >= ci_lower_rounded & true_date <= ci_upper_rounded
+}
+
+# Function to get true dates for a row
+get_true_dates <- function(row) {
+  dates <- c()
+  if(row$n_from_20gen > 0) dates <- c(dates, 20)
+  if(row$n_from_50gen > 0) dates <- c(dates, 50)
+  if(row$n_from_75gen > 0) dates <- c(dates, 75)
+  return(dates)
+}
+
+# For each simulation, check how many TRUE DATES are covered by predicted clusters
+score_simulation <- function(row) {
+  method <- row$method
+  filename <- row$filename
+  true_k <- row$n_true_clusters
+  predicted_k <- row$predicted_k
+  classification <- row$classification
+  generation_combo <- row$generation_combo
+  true_dates <- get_true_dates(row)
+  
+  n_true_covered <- 0
+  
+  # For each TRUE DATE, check if ANY predicted cluster covers it
+  for(tdate in true_dates) {
+    covered <- FALSE
+    
+    # Check all predicted clusters
+    for(j in 1:predicted_k) {
+      col_lower <- sprintf("k%d_cluster%d_lower_ci", predicted_k, j)
+      col_upper <- sprintf("k%d_cluster%d_upper_ci", predicted_k, j)
+      
+      if(col_lower %in% names(row) && col_upper %in% names(row)) {
+        lower_ci <- row[[col_lower]]
+        upper_ci <- row[[col_upper]]
+        
+        if(ci_overlaps(lower_ci, upper_ci, tdate)) {
+          covered <- TRUE
+          break  # This true date is covered, move to next true date
+        }
+      }
+    }
+    
+    if(covered) n_true_covered <- n_true_covered + 1
+  }
+  
+  tibble(
+    filename = filename,
+    method = method,
+    true_k = true_k,
+    predicted_k = predicted_k,
+    classification = classification,
+    generation_combo = generation_combo,
+    n_true_dates = length(true_dates),
+    n_true_covered = n_true_covered,
+    prop_covered = n_true_covered / length(true_dates)
+  )
+}
+
+# Apply to all rows
+results_per_sim <- clustering_summary %>%
+  rowwise() %>%
+  do(score_simulation(.)) %>%
+  ungroup()
+
+# Summarize across simulations
+overlap_summary <- results_per_sim %>%
+  group_by(method, true_k, classification) %>%
+  summarize(
+    n_sims = n(),
+    mean_prop_covered = mean(prop_covered),
+    sd_prop_covered = sd(prop_covered),
+    .groups = "drop"
+  )
+
+print(overlap_summary)
+
+
+
+
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Function to check if CI overlaps with true date
+# Rounds lower CI down and upper CI up to nearest generation
+ci_overlaps <- function(ci_lower, ci_upper, true_date) {
+  if(is.na(ci_lower) || is.na(ci_upper) || is.na(true_date)) return(FALSE)
+  
+  # Round lower bound down, upper bound up to nearest generation
+  ci_lower_rounded <- floor(ci_lower)
+  ci_upper_rounded <- ceiling(ci_upper)
+  
+  true_date >= ci_lower_rounded & true_date <= ci_upper_rounded
+}
+
+
+# Function to get true dates for a row
+get_true_dates <- function(row) {
+  dates <- c()
+  if(row$n_from_20gen > 0) dates <- c(dates, 20)
+  if(row$n_from_50gen > 0) dates <- c(dates, 50)
+  if(row$n_from_75gen > 0) dates <- c(dates, 75)
+  return(dates)
+}
+
+# Score by PREDICTED CLUSTERS: how many predicted clusters overlap with a true date
+score_by_predicted <- function(row) {
+  method <- row$method
+  filename <- row$filename
+  true_k <- row$n_true_clusters
+  predicted_k <- row$predicted_k
+  classification <- row$classification
+  generation_combo <- row$generation_combo
+  true_dates <- get_true_dates(row)
+  
+  n_predicted_correct <- 0
+  
+  # For each PREDICTED CLUSTER, check if it overlaps with ANY true date
+  for(j in 1:predicted_k) {
+    col_lower <- sprintf("k%d_cluster%d_lower_ci", predicted_k, j)
+    col_upper <- sprintf("k%d_cluster%d_upper_ci", predicted_k, j)
+    
+    if(col_lower %in% names(row) && col_upper %in% names(row)) {
+      lower_ci <- row[[col_lower]]
+      upper_ci <- row[[col_upper]]
+      
+      # Check if this predicted cluster overlaps with ANY true date
+      for(tdate in true_dates) {
+        if(ci_overlaps(lower_ci, upper_ci, tdate)) {
+          n_predicted_correct <- n_predicted_correct + 1
+          break  # Count this cluster once even if it overlaps multiple true dates
+        }
+      }
+    }
+  }
+  
+  tibble(
+    filename = filename,
+    method = method,
+    true_k = true_k,
+    predicted_k = predicted_k,
+    classification = classification,
+    generation_combo = generation_combo,
+    n_predicted_clusters = predicted_k,
+    n_predicted_correct = n_predicted_correct,
+    prop_predicted_correct = n_predicted_correct / predicted_k
+  )
+}
+
+# Apply to all rows
+results_predicted <- clustering_summary %>%
+  rowwise() %>%
+  do(score_by_predicted(.)) %>%
+  ungroup()
+
+# Summarize across simulations
+overlap_summary_predicted <- results_predicted %>%
+  group_by(method, true_k, classification) %>%
+  summarize(
+    n_sims = n(),
+    mean_prop_correct = mean(prop_predicted_correct),
+    sd_prop_correct = sd(prop_predicted_correct),
+    .groups = "drop"
+  )
+
+print(overlap_summary_predicted)
+
+
+library(dplyr)
+library(ggplot2)
+
+# Combine both datasets
+overlap_summary <- overlap_summary %>%
+  mutate(metric = "% true dates covered")
+
+overlap_summary_predicted <- overlap_summary_predicted %>%
+  rename(mean_prop_covered = mean_prop_correct,
+         sd_prop_covered = sd_prop_correct) %>%
+  mutate(metric = "% predicted clusters correct")
+
+combined_data <- bind_rows(overlap_summary, overlap_summary_predicted)
+
+# Plot
+pdf("plots/sims_date_overlap_precision_sensitivity.pdf", width=15, height=11)
+
+ggplot(combined_data, aes(x = classification, y = mean_prop_covered, fill = classification)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  geom_errorbar(aes(ymin = pmax(0, mean_prop_covered - sd_prop_covered),
+                    ymax = pmin(1, mean_prop_covered + sd_prop_covered)),
+                width = 0.3) +
+  geom_text(aes(label = n_sims, y=1), 
+            vjust = -0.5, 
+            nudge_y = 0.05,
+            size = 5) +
+  facet_grid(metric ~ method + true_k) +
+  scale_y_continuous(limits = c(0, 1.15), breaks = seq(0, 1, 0.2)) +
+  #scale_fill_manual(
+ #   values = c("correct" = "#2ecc71", 
+#               "predicted_k1" = "#e74c3c",
+#               "predicted_k2" = "#f39c12",
+#               "predicted_k3" = "#9b59b6",
+#               "predicted_k4" = "#34495e"),
+   # labels = c("Correct", "Pred: k=1", "Pred: k=2", "Pred: k=3", "Pred: k=4")
+  #) +
+  labs(x = "Classification",
+       y = "Proportion",
+       fill = "Classification")+
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.text = element_text(size = 20),
+    legend.title = element_text(size = 20, face = "bold"),
+    strip.text = element_text(size = 20, face = "bold"),
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.text = element_text(size = 20),
+    axis.text.x = element_text(angle = 45, hjust = 1, size=17),
+    plot.title = element_text(size = 16, face = "bold")
+  )
+
+dev.off()
+
+
+
+combined_data2<-filter(combined_data, metric=="% true dates covered")
+
+
+library(dplyr)
+
+weighted_summary <- combined_data2 %>%
+  group_by(method, true_k) %>%
+  summarise(
+    total_sims = sum(n_sims),
+    weighted_mean_prop_covered =
+      sum(mean_prop_covered * n_sims) / total_sims,
+    .groups = "drop"
+  )
+
+weighted_summary
+
+library(ggplot2)
+
+# assuming weighted_summary from before:
+# columns: method, true_k, total_sims, weighted_mean_prop_covered
+pdf("plots/sims_date_overlap_simple.pdf", width=6, height=5)
+ggplot(weighted_summary,
+       aes(x = true_k,
+           y = weighted_mean_prop_covered,
+           fill = true_k)) +
+  geom_col(alpha = 0.8) +
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.2)) +
+  facet_wrap(~ method) +
+  labs(
+    x = "True number of clusters (k)",
+    y = "Proportion of true dates covered"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+dev.off()
+
+ggplot(combined_data2, aes(x = classification, y = mean_prop_covered, fill = classification)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  geom_errorbar(aes(ymin = pmax(0, mean_prop_covered - sd_prop_covered),
+                    ymax = pmin(1, mean_prop_covered + sd_prop_covered)),
+                width = 0.3) +
+  geom_text(aes(label = n_sims, y=1), 
+            vjust = -0.5, 
+            nudge_y = 0.05,
+            size = 5) +
+  facet_grid(~method) +
+  scale_y_continuous(limits = c(0, 1.15), breaks = seq(0, 1, 0.2)) +
+  #scale_fill_manual(
+  #   values = c("correct" = "#2ecc71", 
+  #               "predicted_k1" = "#e74c3c",
+  #               "predicted_k2" = "#f39c12",
+  #               "predicted_k3" = "#9b59b6",
+  #               "predicted_k4" = "#34495e"),
+  # labels = c("Correct", "Pred: k=1", "Pred: k=2", "Pred: k=3", "Pred: k=4")
+  #) +
+  labs(x = "Classification",
+       y = "Proportion",
+       fill = "Classification")+
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.text = element_text(size = 20),
+    legend.title = element_text(size = 20, face = "bold"),
+    strip.text = element_text(size = 20, face = "bold"),
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.text = element_text(size = 20),
+    axis.text.x = element_text(angle = 45, hjust = 1, size=17),
+    plot.title = element_text(size = 16, face = "bold")
+  )
+
+dev.off()
+
+spanish_japan_20gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates.txt", quote="\"", comment.char="")
+spanish_japan_50gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_50gen_dates.txt", quote="\"", comment.char="")
+spanish_japan_75gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_75gen_dates.txt", quote="\"", comment.char="")
+
+
+spanish_japan_20gen_dates$true<-20
+spanish_japan_50gen_dates$true<-50
+spanish_japan_75gen_dates$true<-75
+
+spanish_japan_dates<-rbind(spanish_japan_20gen_dates, spanish_japan_50gen_dates, spanish_japan_75gen_dates)
+
+# Calculate CIs and check overlap
+overlap_results <- spanish_japan_dates %>%
+  mutate(
+    # Calculate 95% CI bounds
+    lower_ci = floor(V4 - 1.96 * V5),
+    upper_ci = ceiling(V4 + 1.96 * V5),
+    # Check if true value falls within CI
+    overlaps = true >= lower_ci & true <= upper_ci
+  )
+
+# Calculate percentage that overlap
+percentage_overlap <- mean(overlap_results$overlaps) * 100
+
+print(paste("Percentage of estimates that overlap true date:", 
+            round(percentage_overlap, 2), "%"))
+
+# Summary table
+summary_table <- overlap_results %>%
+  summarize(
+    n_total = n(),
+    n_overlap = sum(overlaps),
+    prop_overlap = mean(overlaps),
+    pct_overlap = mean(overlaps) * 100
+  )
+
+print(summary_table)
+
+# Optional: show which ones don't overlap
+non_overlapping <- overlap_results %>%
+  filter(!overlaps) %>%
+  select(V1, V4, lower_ci, upper_ci, true)
+
+print("Cases that don't overlap:")
+print(non_overlapping)
+
+
+
+
+spanish_japan_20gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen.txt", quote="\"", comment.char="")
+spanish_japan_50gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen.txt", quote="\"", comment.char="")
+spanish_japan_75gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen.txt", quote="\"", comment.char="")
+
+
+spanish_japan_20gen_dates$true<-20
+spanish_japan_50gen_dates$true<-50
+spanish_japan_75gen_dates$true<-75
+
+spanish_japan_dates<-rbind(spanish_japan_20gen_dates, spanish_japan_50gen_dates, spanish_japan_75gen_dates)
+
+# Calculate CIs and check overlap
+overlap_results <- spanish_japan_dates %>%
+  mutate(
+    # Calculate 95% CI bounds
+    lower_ci = V4 - 1.96 * V5,
+    upper_ci = V4 + 1.96 * V5,
+    # Check if true value falls within CI
+    overlaps = true >= lower_ci & true <= upper_ci
+  )
+
+# Calculate percentage that overlap
+percentage_overlap <- mean(overlap_results$overlaps) * 100
+
+print(paste("Percentage of estimates that overlap true date:", 
+            round(percentage_overlap, 2), "%"))
+
+# Summary table
+summary_table <- overlap_results %>%
+  summarize(
+    n_total = n(),
+    n_overlap = sum(overlaps),
+    prop_overlap = mean(overlaps),
+    pct_overlap = mean(overlaps) * 100
+  )
+
+print(summary_table)
+
+# Optional: show which ones don't overlap
+non_overlapping <- overlap_results %>%
+  filter(!overlaps) %>%
+  select(V1, V4, lower_ci, upper_ci, true)
+
+print("Cases that don't overlap:")
+print(non_overlapping)

@@ -4,18 +4,18 @@ load("R/sysdata.rda")
 # Update thresholds_config with new k1_to_k2_for_k3 values
 thresholds_config <- list(
   GLOBETROTTER = list(
-    k1_to_k2_for_k2 = 0.56,
-    k1_to_k2_for_k3 = 0.66,   # NEW: stricter threshold for k>=3
-    k2_to_k3 = 0.34,
-    k3_to_k4 = 0.18,
+    k1_to_k2_for_k2 = 0.69,
+    k1_to_k2_for_k3 = 0.90,   # NEW: stricter threshold for k>=3
+    k2_to_k3 = 0.43,
+    k3_to_k4 = 0.31,
     clustering_strength = 0.78,cv_threshold =1
   ),
   DATES = list(
-    k1_to_k2_for_k2 = 0.97,
-    k1_to_k2_for_k3 = 2.21,   # Already exists, just confirming
-    k2_to_k3 = 0.58,
-    k3_to_k4 = 0.42,
-    clustering_strength = 0.99, cv_threshold=1
+    k1_to_k2_for_k2 = 1.20,
+    k1_to_k2_for_k3 = 2.59,   # Already exists, just confirming
+    k2_to_k3 = 0.71,
+    k3_to_k4 = 0.49,
+    clustering_strength = 0.983, cv_threshold=2.5
   )
 )
 
