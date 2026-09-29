@@ -1,8 +1,8 @@
 ###Neanderthal plots
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_noOaseZlatykun_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
+output <- read.table("data/real/neanderthal/admixfrog_moorjani_noOaseZlatykun_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 output$pop<-gsub("Shotgun", "", output$pop)
@@ -139,8 +139,8 @@ dev.off()
 ###Neanderthal plots
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_ALL_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
+output <- read.table("data/real/neanderthal/admixfrog_moorjani_ALL_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 output$pop<-gsub("Shotgun", "", output$pop)
@@ -286,8 +286,8 @@ dev.off()
 ###Neanderthal plots
 library(tidyverse)
 library(stringr)
-output <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_noearlyOAAnoOaseZlatykun_admixplorer.output.txt", header=T)
-input_data<-read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
+output <- read.table("data/real/neanderthal/admixfrog_moorjani_noearlyOAAnoOaseZlatykun_admixplorer.output.txt", header=T)
+input_data<-read.csv("data/real/neanderthal/admixfrog_moorjani_ALL", sep="", header=F)
 
 output$ind_date_se<-input_data[match(output$pop, input_data$V1), 5]
 output$pop<-gsub("Shotgun", "", output$pop)
