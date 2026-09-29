@@ -877,7 +877,7 @@ pdf("plots/sims_classification_by_cluster_balance.pdf", width=15, height=10)
 p_balance
 dev.off()
 
-cat("\n=== BALANCE RATIO EFFECT ON SPECIFIC MISCLASSIFICATIONS ===\n\n")
+
 
 # For k=2
 for (m in unique(clustering_summary$method)) {
@@ -1307,7 +1307,7 @@ dev.off()
 
 
 
-###ok stats test for this
+###stats test for this
 # Spearman correlation by generation combo
 cat("\n=== SPEARMAN CORRELATION BY GENERATION COMBO ===\n\n")
 
@@ -1425,25 +1425,7 @@ results_per_sim <- clustering_summary %>%
   do(score_simulation(.)) %>%
   ungroup()
 
-# Summarize across simulations
-overlap_summary <- results_per_sim %>%
-  group_by(method, true_k, classification) %>%
-  summarize(
-    n_sims = n(),
-    mean_prop_covered = mean(prop_covered),
-    sd_prop_covered = sd(prop_covered),
-    .groups = "drop"
-  )
 
-print(overlap_summary)
-
-
-
-
-
-library(dplyr)
-library(tidyr)
-library(ggplot2)
 
 # Function to check if CI overlaps with true date
 # Rounds lower CI down and upper CI up to nearest generation
@@ -1598,7 +1580,6 @@ weighted_summary <- combined_data2 %>%
     .groups = "drop"
   )
 
-weighted_summary
 
 library(ggplot2)
 
@@ -1659,97 +1640,4 @@ ggplot(combined_data2, aes(x = classification, y = mean_prop_covered, fill = cla
 
 dev.off()
 
-spanish_japan_20gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates.txt", quote="\"", comment.char="")
-spanish_japan_50gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_50gen_dates.txt", quote="\"", comment.char="")
-spanish_japan_75gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_75gen_dates.txt", quote="\"", comment.char="")
 
-
-spanish_japan_20gen_dates$true<-20
-spanish_japan_50gen_dates$true<-50
-spanish_japan_75gen_dates$true<-75
-
-spanish_japan_dates<-rbind(spanish_japan_20gen_dates, spanish_japan_50gen_dates, spanish_japan_75gen_dates)
-
-# Calculate CIs and check overlap
-overlap_results <- spanish_japan_dates %>%
-  mutate(
-    # Calculate 95% CI bounds
-    lower_ci = floor(V4 - 1.96 * V5),
-    upper_ci = ceiling(V4 + 1.96 * V5),
-    # Check if true value falls within CI
-    overlaps = true >= lower_ci & true <= upper_ci
-  )
-
-# Calculate percentage that overlap
-percentage_overlap <- mean(overlap_results$overlaps) * 100
-
-print(paste("Percentage of estimates that overlap true date:", 
-            round(percentage_overlap, 2), "%"))
-
-# Summary table
-summary_table <- overlap_results %>%
-  summarize(
-    n_total = n(),
-    n_overlap = sum(overlaps),
-    prop_overlap = mean(overlaps),
-    pct_overlap = mean(overlaps) * 100
-  )
-
-print(summary_table)
-
-# Optional: show which ones don't overlap
-non_overlapping <- overlap_results %>%
-  filter(!overlaps) %>%
-  select(V1, V4, lower_ci, upper_ci, true)
-
-print("Cases that don't overlap:")
-print(non_overlapping)
-
-
-
-
-spanish_japan_20gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen.txt", quote="\"", comment.char="")
-spanish_japan_50gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen.txt", quote="\"", comment.char="")
-spanish_japan_75gen_dates <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen.txt", quote="\"", comment.char="")
-
-
-spanish_japan_20gen_dates$true<-20
-spanish_japan_50gen_dates$true<-50
-spanish_japan_75gen_dates$true<-75
-
-spanish_japan_dates<-rbind(spanish_japan_20gen_dates, spanish_japan_50gen_dates, spanish_japan_75gen_dates)
-
-# Calculate CIs and check overlap
-overlap_results <- spanish_japan_dates %>%
-  mutate(
-    # Calculate 95% CI bounds
-    lower_ci = V4 - 1.96 * V5,
-    upper_ci = V4 + 1.96 * V5,
-    # Check if true value falls within CI
-    overlaps = true >= lower_ci & true <= upper_ci
-  )
-
-# Calculate percentage that overlap
-percentage_overlap <- mean(overlap_results$overlaps) * 100
-
-print(paste("Percentage of estimates that overlap true date:", 
-            round(percentage_overlap, 2), "%"))
-
-# Summary table
-summary_table <- overlap_results %>%
-  summarize(
-    n_total = n(),
-    n_overlap = sum(overlaps),
-    prop_overlap = mean(overlaps),
-    pct_overlap = mean(overlaps) * 100
-  )
-
-print(summary_table)
-
-# Optional: show which ones don't overlap
-non_overlapping <- overlap_results %>%
-  filter(!overlaps) %>%
-  select(V1, V4, lower_ci, upper_ci, true)
-
-print("Cases that don't overlap:")
-print(non_overlapping)
