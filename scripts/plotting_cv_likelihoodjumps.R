@@ -1,10 +1,10 @@
-#####ok here we go, plotting the different types of sims. cv first
+####plotting the different types of sims. cv first
 ###dates
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_africaeurope_5050_30gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_africaeurope_5050_50gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_60gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_africaeurope_5050_60gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_75gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_africaeurope_5050_75gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_100gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_africaeurope_5050_100gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/DATES/dates_africaeurope_5050_30gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/DATES/dates_africaeurope_5050_50gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_60gen <- read.table("data/simulations/DATES/dates_africaeurope_5050_60gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_75gen <- read.table("data/simulations/DATES/dates_africaeurope_5050_75gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_100gen <- read.table("data/simulations/DATES/dates_africaeurope_5050_100gen.txt", quote="\"", comment.char="")
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
 dates_africaeurope_5050_30gen$true<-30
@@ -27,11 +27,11 @@ dates_africaeurope$method<-"DATES"
 dates_africaeurope$type<-"Malawi_French"
 ##globetrotter
 
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_africaeurope_5050_30gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_africaeurope_5050_50gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_60gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_africaeurope_5050_60gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_75gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_africaeurope_5050_75gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_100gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_africaeurope_5050_100gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/GLOBETROTTER/GT_africaeurope_5050_30gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/GLOBETROTTER/GT_africaeurope_5050_50gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_60gen <- read.table("data/simulations/GLOBETROTTER/GT_africaeurope_5050_60gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_75gen <- read.table("data/simulations/GLOBETROTTER/GT_africaeurope_5050_75gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_100gen <- read.table("data/simulations/GLOBETROTTER/GT_africaeurope_5050_100gen.txt", quote="\"", comment.char="")
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
 dates_africaeurope_5050_30gen$true<-30
@@ -59,9 +59,9 @@ GT_africaeurope$type<-"Malawi_French"
 ##spansihjapan
 ###dates
 
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_20gen_dates_first30.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_50gen_dates_first30.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_60gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/spanish_japan_75gen_dates_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/DATES/spanish_japan_20gen_dates_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/DATES/spanish_japan_50gen_dates_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_60gen <- read.table("data/simulations/DATES/spanish_japan_75gen_dates_first30.txt", quote="\"", comment.char="")
 
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
@@ -80,9 +80,9 @@ dates_spanishjapan$method<-"DATES"
 dates_spanishjapan$type<-"Spanish_Japan"
 ##globetrotter
 
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_first30.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_75gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/GLOBETROTTER/GT_spanishjapanese_20gen_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/GLOBETROTTER/GT_spanishjapanese_50gen_first30.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_75gen <- read.table("data/simulations/GLOBETROTTER/GT_spanishjapanese_75gen_first30.txt", quote="\"", comment.char="")
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
 dates_africaeurope_5050_30gen$true<-20
@@ -102,9 +102,9 @@ GT_spanishjapan$type<-"Spanish_Japan"
 ##italiannorway
 ###dates
 
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_italiannorway_30gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_italiannorway_50gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_60gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/DATES/dates_italiannorway_75gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/DATES/dates_italiannorway_30gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/DATES/dates_italiannorway_50gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_60gen <- read.table("data/simulations/DATES/dates_italiannorway_75gen.txt", quote="\"", comment.char="")
 
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
@@ -123,9 +123,9 @@ dates_italiannorway$method<-"DATES"
 dates_italiannorway$type<-"Italian_Norway"
 ##globetrotter
 
-dates_africaeurope_5050_30gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_italiannorway_30gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_50gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_italiannorway_50gen.txt", quote="\"", comment.char="")
-dates_africaeurope_5050_75gen <- read.table("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/GLOBETROTTER/GT_italiannorway_75gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_30gen <- read.table("data/simulations/GLOBETROTTER/GT_italiannorway_30gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_50gen <- read.table("data/simulations/GLOBETROTTER/GT_italiannorway_50gen.txt", quote="\"", comment.char="")
+dates_africaeurope_5050_75gen <- read.table("data/simulations/GLOBETROTTER/GT_italiannorway_75gen.txt", quote="\"", comment.char="")
 
 dates_africaeurope_5050_30gen$cv<-dates_africaeurope_5050_30gen$V4/dates_africaeurope_5050_30gen$V5
 dates_africaeurope_5050_30gen$true<-30
@@ -176,9 +176,9 @@ dev.off()
 
 
 
-###now we want a figure of likelihood jumps for different simsssssssssssssss
-#ok i think i need to make an excel sheet one sec
-likelihood_changes <- read.csv("C:/Users/nancy/OneDrive - University College London/Documents/POSTDOC/NewGTMethod/admixplorer-paper-results/data/simulations/likelihood_changes..csv")
+###now we want a figure of likelihood jumps for different simss
+
+likelihood_changes <- read.csv("data/simulations/likelihood_changes..csv")
 
 
 library(ggplot2)
